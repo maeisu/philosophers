@@ -6,7 +6,7 @@ OBJ_DIR = ./objs
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 INCLUDE = -I ./
 
 RM = rm -rf

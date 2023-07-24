@@ -26,17 +26,21 @@ typedef struct s_data
     int time_eat;
     int time_sleep;
     int time_die;
+    int max_eat;
+    pthread_mutex_t *fork_mutex;
+    pthread_mutex_t eat_mutex;
 
 }   t_data;
 
 typedef struct s_philo
 {
-    pthread_t id;
+    int id;
     // pthread_mutex_t mutex;
-    pthread_t thread_id;
+    // pthread_t thread_id;
     int r_fork;
     int l_fork;
     int meal_count;
+    t_data *data;
 
 }   t_philo;
 

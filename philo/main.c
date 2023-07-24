@@ -68,9 +68,23 @@
 //     }
 // }
 
-void philo_act()
+void philo_act(void *arg)
 {
-    printf("test\n");
+    t_philo *philo;
+
+    philo = (t_philo *)arg;
+    printf("%d\n", philo->id);
+    if (philo->id % 2 == 1)
+        usleep(200);
+    pthread_mutex_lock(&philo->data->fork_mutex[philo->r_fork]);
+    pthread_mutex_lock(&philo->data->fork_mutex[philo->l_fork]);
+    pthread_mutex_lock(&philo->data->eat_mutex);
+    printf("timestamp_in_ms %d is eating\n", philo->id);
+    pthread_mutex_unlock(&philo->data->eat_mutex);
+    usleep(philo->data->time_eat * 1000);
+    pthread_mutex_unlock(&philo->data->fork_mutex[philo->r_fork]);
+    pthread_mutex_unlock(&philo->data->fork_mutex[philo->l_fork]);
+    usleep(philo->data->time_sleep * 1000);
 }
 
 int main(int argc, char **argv)
@@ -83,17 +97,20 @@ int main(int argc, char **argv)
         return (1);
 
     int fork = atoi(argv[1]);
-    int to_die = atoi(argv[2]);
-    int to_eat = atoi(argv[3]);
-    int to_sleep = atoi(argv[4]);
-    int max_eat = -1;
-    if (argv[5])
-        max_eat = atoi(argv[5]);
-    if (to_die < (to_eat + to_sleep))
-        return (1);
     pthread_mutex_t *fork_mutex;
     fork_mutex = malloc(sizeof(fork_mutex) * fork);
     if (!fork_mutex)
+        return (1);
+    t_data data;
+    data.time_die = atoi(argv[2]);
+    data.time_eat = atoi(argv[3]);
+    data.time_sleep = atoi(argv[4]);
+    data.max_eat = -1;
+    data.fork_mutex = fork_mutex;
+    pthread_mutex_init(&data.eat_mutex, NULL);
+    if (argv[5])
+        data.max_eat = atoi(argv[5]);
+    if (data.time_die < (data.time_eat + data.time_sleep))
         return (1);
     t_philo *philo;
     philo = malloc(sizeof(t_philo) * fork);
@@ -102,19 +119,24 @@ int main(int argc, char **argv)
     int i = 0;
     while (i < fork)
     {
-        pthread_mutex_init(&fork_mutex[i++], NULL);
+        philo[i].id = i; 
         philo[i].r_fork = i;
         philo[i].l_fork = (i + 1) % fork;
         philo[i].meal_count = 0;
+        philo[i].data = &data;
+        pthread_mutex_init(&fork_mutex[i++], NULL);
     }
+    i = 0;
+    pthread_t thread_id[10];
+    while (i < fork)
+    {
+        pthread_create(&thread_id[i], NULL, (void *)philo_act, (void *)&philo[i]);
+        i++;
+    }
+    // printf("test\n");
     i = 0;
     while (i < fork)
     {
-        pthread_create(&philo[i++].thread_id, NULL, (void *)philo_act, NULL);
-    }
-    i = 0;
-    while (i < fork)
-    {
-        pthread_join(philo[i++].thread_id, NULL);
+        pthread_join(thread_id[i++], NULL);
     }
 }
