@@ -41,8 +41,7 @@ typedef struct s_data
 typedef struct s_philo
 {
     int id;
-    // pthread_mutex_t mutex;
-    // pthread_t thread_id;
+    pthread_t thread_id;
     int r_fork;
     int l_fork;
     int meal_count;
