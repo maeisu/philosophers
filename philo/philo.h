@@ -6,7 +6,7 @@
 /*   By: smaei <smaei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 12:13:04 by smaei             #+#    #+#             */
-/*   Updated: 2023/08/19 15:20:42 by smaei            ###   ########.fr       */
+/*   Updated: 2023/09/02 20:07:18 by smaei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <time.h>
+# include <limits.h>
 
 typedef enum s_status{
 	SLEEP,

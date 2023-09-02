@@ -6,7 +6,7 @@
 /*   By: smaei <smaei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:42:49 by smaei             #+#    #+#             */
-/*   Updated: 2023/09/02 14:15:21 by smaei            ###   ########.fr       */
+/*   Updated: 2023/09/02 20:10:20 by smaei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	monitor(int count, t_philo *philo)
 		{
 			if (philo->data->time_die < get_time() - philo[i].last_meal_time)
 			{
-				philo_print("died", philo, -1);
 				pthread_mutex_lock(&philo[i].data->eat_mutex);
 				philo[i].data->repeat = false;
 				pthread_mutex_unlock(&philo[i].data->eat_mutex);
+				philo_print("died", &philo[i], -1);
 				pthread_mutex_unlock(&philo[i].meal);
 				break ;
 			}

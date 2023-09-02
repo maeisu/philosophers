@@ -6,7 +6,7 @@
 /*   By: smaei <smaei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:25:36 by smaei             #+#    #+#             */
-/*   Updated: 2023/08/19 14:59:43 by smaei            ###   ########.fr       */
+/*   Updated: 2023/09/02 20:13:21 by smaei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	philo_atoi(char *num)
 		res += number;
 		i++;
 	}
+	if (res > INT_MAX)
+		return (-1);
 	return ((int)res);
 }
 
@@ -66,7 +68,7 @@ void	ft_usleep(int wait_time)
 
 void	philo_print(char *msg, t_philo *philo, long long time)
 {
-	if (get_repeat(philo->data))
+	if (get_repeat(philo->data) || (msg && msg[0] == 'd'))
 	{
 		pthread_mutex_lock(&philo->data->print_message);
 		if (time == -1)
