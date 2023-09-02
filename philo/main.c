@@ -6,7 +6,7 @@
 /*   By: smaei <smaei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:42:49 by smaei             #+#    #+#             */
-/*   Updated: 2023/09/02 12:58:52 by smaei            ###   ########.fr       */
+/*   Updated: 2023/09/02 14:15:21 by smaei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,4 @@ int	main(int argc, char **argv)
 		monitor(count, philo);
 	}
 	philo_exit(philo);
-	system("leaks -q philo");
 }
