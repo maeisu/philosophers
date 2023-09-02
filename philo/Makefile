@@ -1,13 +1,13 @@
 NAME = philo
 
-SRCS = main.c
+SRCS = main.c init.c mutex.c philo_act.c util.c
 
 OBJ_DIR = ./objs
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
-# CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror
 INCLUDE = -I ./
 
 RM = rm -rf
