@@ -22,12 +22,37 @@ bool	get_repeat(t_data *data)
 	return (res);
 }
 
-int	get_meal_count(t_philo *philo)
+int	get_meal_count(t_philo *philo, int i)
 {
 	int	res;
 
-	pthread_mutex_lock(&philo[0].meal);
-	res = philo[0].meal_count;
-	pthread_mutex_unlock(&philo[0].meal);
+	pthread_mutex_lock(&philo[i].meal);
+	res = philo[i].meal_count;
+	pthread_mutex_unlock(&philo[i].meal);
 	return (res);
 }
+
+void	set_meal_count(t_philo *philo, int i)
+{
+	pthread_mutex_lock(&philo[0].meal);
+	philo[0].meal_count += i;
+	pthread_mutex_unlock(&philo[0].meal);
+}
+
+long long	get_meal_time(t_philo *philo, int i)
+{
+	long long	res;
+
+	pthread_mutex_lock(&philo[i].meal_time);
+	res = philo[i].last_meal_time;
+	pthread_mutex_unlock(&philo[i].meal_time);
+	return (res);
+}
+
+void	set_meal_time(t_philo *philo)
+{
+	pthread_mutex_lock(&philo[0].meal_time);
+	philo[0].last_meal_time = get_time();
+	pthread_mutex_unlock(&philo[0].meal_time);
+}
+

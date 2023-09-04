@@ -53,13 +53,15 @@ typedef struct s_philo
 	long long		last_meal_time;
 	t_data			*data;
 	pthread_mutex_t	meal;
+	pthread_mutex_t	meal_time;
 }				t_philo;
 
 void		data_init(t_data *data, char **argv, pthread_mutex_t *fork_mutex);
 void		philo_init(t_data *data, t_philo *philo);
 t_philo		*init(char **argv);
 bool		get_repeat(t_data *data);
-int			get_meal_count(t_philo *philo);
+int			get_meal_count(t_philo *philo, int i);
+void		set_meal_count(t_philo *philo, int i);
 void		loop_act(t_philo *philo);
 void		philo_act(void *arg);
 bool		ft_isdigit(char n);
@@ -67,5 +69,6 @@ int			philo_atoi(char *num);
 long long	get_time(void);
 void		ft_usleep(int wait_time);
 void		philo_print(char *msg, t_philo *philo, long long time);
-
+long long	get_meal_time(t_philo *philo, int i);
+void	set_meal_time(t_philo *philo);
 #endif

@@ -43,6 +43,7 @@ void	philo_init(t_data *data, t_philo *philo)
 		philo[i].data = data;
 		philo[i].last_meal_time = get_time();
 		pthread_mutex_init(&philo[i].meal, NULL);
+		pthread_mutex_init(&philo[i].meal_time, NULL);
 		pthread_mutex_init(&data->fork_mutex[i++], NULL);
 	}
 }

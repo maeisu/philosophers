@@ -62,7 +62,7 @@ void	ft_usleep(int wait_time)
 	{
 		if (get_time() - now_time >= wait_time)
 			break ;
-		usleep(1000);
+		usleep(200);
 	}
 }
 
