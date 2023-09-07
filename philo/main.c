@@ -32,14 +32,26 @@ void	philo_exit(t_philo *philo)
 	free(philo);
 }
 
-void	monitor(int count, t_philo *philo)
+int get(t_philo *philo)
 {
-	int	i;
-	int get_count;
+	int res;
 
-	i = 0;
+	pthread_mutex_lock(&philo->data->check);
+	res = philo->data->finish;
+	pthread_mutex_unlock(&philo->data->check);
+	return (res);
+}
+
+bool	monitor(t_philo *philo, int i)
+{
+	int get_count;
+	int count;
+
+	count = INT_MAX;
 	while (i < philo->data->philo_count)
 	{
+		if (get(philo) >= philo->data->philo_count)
+			return (false);
 		get_count = get_meal_count(philo, i);
 		if (get_count < philo->data->max_eat
 			|| philo->data->max_eat == -1)
@@ -50,13 +62,12 @@ void	monitor(int count, t_philo *philo)
 				philo[i].data->repeat = false;
 				pthread_mutex_unlock(&philo[i].data->eat_mutex);
 				philo_print("died", &philo[i], -1);
-				break ;
+				return (false);
 			}
 		}
-		if (get_count < count)
-			count = get_meal_count(philo, i);
 		i++;
 	}
+	return (true);
 }
 
 bool	input_error(int argc, char **argv)
@@ -83,7 +94,6 @@ bool	input_error(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_philo	*philo;
-	int		count;
 	int		i;
 
 	if (input_error(argc, argv))
@@ -98,10 +108,6 @@ int	main(int argc, char **argv)
 			(void *)philo_act, (void *)&philo[i]);
 		i++;
 	}
-	while (get_repeat(philo->data) && count != philo->data->max_eat)
-	{
-		count = get_meal_count(philo, 0);
-		monitor(count, philo);
-	}
+	while (monitor(philo, 0));
 	philo_exit(philo);
 }

@@ -36,6 +36,12 @@ void	set_meal_count(t_philo *philo, int i)
 {
 	pthread_mutex_lock(&philo[0].meal);
 	philo[0].meal_count += i;
+	if (philo[0].meal_count == philo->data->max_eat)
+	{
+		pthread_mutex_lock(&philo[0].data->check);
+		philo->data->finish++;
+		pthread_mutex_unlock(&philo[0].data->check);
+	}
 	pthread_mutex_unlock(&philo[0].meal);
 }
 

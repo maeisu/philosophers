@@ -27,6 +27,7 @@ void	loop_act(t_philo *philo)
 	philo_print("is sleeping", philo, -1);
 	ft_usleep(philo->data->time_sleep);
 	philo_print("is thinking", philo, -1);
+	
 }
 
 void	philo_act(void *arg)

@@ -41,6 +41,7 @@ typedef struct s_data
 	pthread_mutex_t	print_message;
 	pthread_mutex_t	check;
 	bool			repeat;
+	int				finish;
 }			t_data;
 
 typedef struct s_philo

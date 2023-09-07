@@ -20,6 +20,7 @@ void	data_init(t_data *data, char **argv, pthread_mutex_t *fork_mutex)
 	data->time_sleep = philo_atoi(argv[4]);
 	data->start_time = get_time();
 	data->max_eat = -1;
+	data->finish = 0;
 	if (argv[5])
 		data->max_eat = philo_atoi(argv[5]);
 	data->fork_mutex = fork_mutex;
