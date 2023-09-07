@@ -26,6 +26,7 @@ void	philo_exit(t_philo *philo)
 	while (i < philo->data->philo_count)
 		pthread_mutex_destroy(&philo->data->fork_mutex[i++]);
 	pthread_mutex_destroy(&philo->meal);
+	pthread_mutex_destroy(&philo->meal_time);
 	free(philo->data->fork_mutex);
 	free(philo->data);
 	free(philo);
