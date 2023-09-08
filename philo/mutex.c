@@ -32,17 +32,15 @@ int	get_meal_count(t_philo *philo, int i)
 	return (res);
 }
 
-void	set_meal_count(t_philo *philo, int i)
+int	set_meal_count(t_philo *philo, int i)
 {
+	int res;
+
 	pthread_mutex_lock(&philo[0].meal);
 	philo[0].meal_count += i;
-	if (philo[0].meal_count == philo->data->max_eat)
-	{
-		pthread_mutex_lock(&philo[0].data->check);
-		philo->data->finish++;
-		pthread_mutex_unlock(&philo[0].data->check);
-	}
+	res = philo[0].meal_count;
 	pthread_mutex_unlock(&philo[0].meal);
+	return (res);
 }
 
 long long	get_meal_time(t_philo *philo, int i)

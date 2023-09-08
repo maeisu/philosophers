@@ -44,26 +44,25 @@ int get(t_philo *philo)
 
 bool	monitor(t_philo *philo, int i)
 {
-	int get_count;
 	int count;
 
 	count = INT_MAX;
 	while (i < philo->data->philo_count)
 	{
-		if (get(philo) >= philo->data->philo_count)
-			return (false);
-		get_count = get_meal_count(philo, i);
-		if (get_count < philo->data->max_eat
-			|| philo->data->max_eat == -1)
+		if (philo->data->max_eat != -1 && get(philo) >= philo->data->philo_count)
 		{
-			if (philo->data->time_die < get_time() - get_meal_time(philo, i))
-			{
-				pthread_mutex_lock(&philo[i].data->eat_mutex);
-				philo[i].data->repeat = false;
-				pthread_mutex_unlock(&philo[i].data->eat_mutex);
-				philo_print("died", &philo[i], -1);
-				return (false);
-			}
+			pthread_mutex_lock(&philo[i].data->eat_mutex);
+			philo[i].data->repeat = false;
+			pthread_mutex_unlock(&philo[i].data->eat_mutex);
+			return (false);
+		}
+		if (philo->data->time_die < get_time() - get_meal_time(philo, i))
+		{
+			pthread_mutex_lock(&philo[i].data->eat_mutex);
+			philo[i].data->repeat = false;
+			pthread_mutex_unlock(&philo[i].data->eat_mutex);
+			philo_print("died", &philo[i], -1);
+			return (false);
 		}
 		i++;
 	}

@@ -68,15 +68,15 @@ void	ft_usleep(int wait_time)
 
 void	philo_print(char *msg, t_philo *philo, long long time)
 {
+	pthread_mutex_lock(&philo->data->print_message);
 	if (get_repeat(philo->data) || (msg && msg[0] == 'd'))
 	{
-		pthread_mutex_lock(&philo->data->print_message);
 		if (time == -1)
 			printf("%lld %d %s\n",
 				get_time() - philo->data->start_time, philo->id, msg);
 		else
 			printf("%lld %d %s\n",
 				time - philo->data->start_time, philo->id, msg);
-		pthread_mutex_unlock(&philo->data->print_message);
 	}
+	pthread_mutex_unlock(&philo->data->print_message);
 }

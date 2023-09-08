@@ -14,20 +14,27 @@
 
 void	loop_act(t_philo *philo)
 {
+	int meal_count;
+
 	pthread_mutex_lock(&philo->data->fork_mutex[philo->r_fork]);
 	philo_print("has taken a fork", philo, -1);
 	pthread_mutex_lock(&philo->data->fork_mutex[philo->l_fork]);
 	philo_print("has taken a fork", philo, -1);
 	set_meal_time(philo);
-	set_meal_count(philo, 1);
+	meal_count = set_meal_count(philo, 1);
 	philo_print("is eating", philo, get_meal_time(philo, 0));
 	ft_usleep(philo->data->time_eat);
 	pthread_mutex_unlock(&philo->data->fork_mutex[philo->r_fork]);
 	pthread_mutex_unlock(&philo->data->fork_mutex[philo->l_fork]);
+	if (meal_count == philo->data->max_eat)
+	{
+		pthread_mutex_lock(&philo[0].data->check);
+		philo->data->finish++;
+		pthread_mutex_unlock(&philo[0].data->check);
+	}
 	philo_print("is sleeping", philo, -1);
 	ft_usleep(philo->data->time_sleep);
 	philo_print("is thinking", philo, -1);
-	
 }
 
 void	philo_act(void *arg)
@@ -45,8 +52,7 @@ void	philo_act(void *arg)
 	}
 	else
 	{
-		while (get_repeat(philo->data)
-			&& philo->data->max_eat != get_meal_count(philo, 0))
+		while (get_repeat(philo->data))
 			loop_act(philo);
 	}
 }

@@ -62,7 +62,7 @@ void		philo_init(t_data *data, t_philo *philo);
 t_philo		*init(char **argv);
 bool		get_repeat(t_data *data);
 int			get_meal_count(t_philo *philo, int i);
-void		set_meal_count(t_philo *philo, int i);
+int		set_meal_count(t_philo *philo, int i);
 void		loop_act(t_philo *philo);
 void		philo_act(void *arg);
 bool		ft_isdigit(char n);
